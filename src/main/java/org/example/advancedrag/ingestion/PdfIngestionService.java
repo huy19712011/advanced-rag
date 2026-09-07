@@ -22,10 +22,19 @@ public class PdfIngestionService {
 
     private static final Path DATA_PATH = Path.of("data");
     private static final Path DOCUMENTS_PATH = DATA_PATH.resolve("documents");
+    private static final Path REPORTS_PATH = DATA_PATH.resolve("reports");
 
-    public List<KnowledgeDocument> loadDocuments() {
+    public List<KnowledgeDocument> loadPolicyDocuments() {
+        return loadDocuments(DOCUMENTS_PATH);
+    }
 
-        try (Stream<Path> pathStream = Files.walk(DOCUMENTS_PATH)) {
+    public List<KnowledgeDocument> loadReports() {
+        return loadDocuments(REPORTS_PATH);
+    }
+
+    public List<KnowledgeDocument> loadDocuments(Path rootPath) {
+
+        try (Stream<Path> pathStream = Files.walk(rootPath)) {
             return pathStream
                     .filter(Files::isRegularFile)
                     .filter(this::isPdfFile)

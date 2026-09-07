@@ -16,8 +16,8 @@ public class PdfIngestionServiceTest {
     private PdfIngestionService pdfIngestionService;
 
     @Test
-    void shouldLoadPdfDocuments() {
-        List<KnowledgeDocument> documents = pdfIngestionService.loadDocuments();
+    void shouldLoadPolicyDocuments() {
+        List<KnowledgeDocument> documents = pdfIngestionService.loadPolicyDocuments();
         log.info("Documents Loaded: {}", documents.size());
 
         for (KnowledgeDocument document : documents) {
@@ -28,6 +28,22 @@ public class PdfIngestionServiceTest {
 
             log.info("Metadata: {}", document.getMetadata());
             log.info("----------------------------------------");
+        }
+    }
+
+    @Test
+    void shouldLoadReports() {
+        List<KnowledgeDocument> documents = pdfIngestionService.loadReports();
+        log.info("Documents Loaded: {}", documents.size());
+
+        for (KnowledgeDocument document : documents) {
+            log.info("Source: {}", document.getSource());
+            String content = document.getContent();
+
+            log.info("Content Preview: {}", content.substring(0, Math.min(200, content.length())));
+
+            log.info("Metadata: {}", document.getMetadata());
+            log.info("--------------------------------------");
         }
     }
 }
