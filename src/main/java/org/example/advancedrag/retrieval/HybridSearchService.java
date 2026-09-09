@@ -6,10 +6,7 @@ import org.example.advancedrag.dto.RetrievalRequest;
 import org.example.advancedrag.model.RetrievalResult;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +27,23 @@ public class HybridSearchService {
         for (RetrievalResult result : vectorResults) {
             mergedResults.put(result.getContent(), result);
         }
+
         for (RetrievalResult result : keywordResults) {
-            mergedResults.putIfAbsent(result.getContent(), result);
+
+            RetrievalResult existing =  mergedResults.get(result.getContent());
+
+            if(existing != null) {
+                Double combinedScore = existing.getFinalScore() + result.getFinalScore();
+                existing.setFinalScore(combinedScore);
+                existing.setRetrievalType("HYBRID");
+            } else {
+                mergedResults.put(result.getContent(), result);
+            }
+
         }
 
-        return new ArrayList<>(mergedResults.values());
+        List<RetrievalResult> results = new ArrayList<>(mergedResults.values());
+        results.sort(Comparator.comparing(RetrievalResult::getFinalScore).reversed());
+        return results;
     }
 }

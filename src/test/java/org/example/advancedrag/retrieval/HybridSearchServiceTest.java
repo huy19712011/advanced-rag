@@ -28,6 +28,8 @@ public class HybridSearchServiceTest {
         for(RetrievalResult result : results) {
             log.info("--------------------------------");
             log.info("CONTENT:\n{}", result.getContent());
+            log.info("TYPE: {}", result.getRetrievalType());
+            log.info("SCORE: {}", result.getFinalScore());
             log.info("METADATA: {}", result.getMetadata());
         }
     }

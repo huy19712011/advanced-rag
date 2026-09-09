@@ -38,7 +38,10 @@ public class RetrievalService {
             Object distance = document.getMetadata().get("distance");
             if (distance instanceof Number number) {
                 result.setScore(number.doubleValue());
+
+                result.setFinalScore(1.0 - result.getScore());
             }
+            result.setRetrievalType("VECTOR");
             results.add(result);
         }
         return results;
