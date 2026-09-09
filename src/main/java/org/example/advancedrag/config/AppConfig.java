@@ -1,5 +1,6 @@
 package org.example.advancedrag.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +11,11 @@ public class AppConfig {
 
     @Bean
     public ChatClient chatClient(ChatModel chatModel) {
-
         return ChatClient.builder(chatModel).build();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 }
