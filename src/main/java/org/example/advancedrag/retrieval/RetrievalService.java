@@ -1,6 +1,7 @@
 package org.example.advancedrag.retrieval;
 
 import lombok.RequiredArgsConstructor;
+import org.example.advancedrag.dto.RetrievalRequest;
 import org.example.advancedrag.model.RetrievalResult;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
@@ -16,14 +17,17 @@ public class RetrievalService {
 
     private final VectorStore vectorStore;
 
-    public List<RetrievalResult> retrieve(String query) {
+    public List<RetrievalResult> retrieve(RetrievalRequest request) {
 
-        SearchRequest searchRequest = SearchRequest.builder()
-                .query(query)
-                .topK(3)
-                .build();
+        SearchRequest.Builder builder = SearchRequest.builder()
+                .query(request.getQuery())
+                .topK(3);
 
-        List<Document> documents = vectorStore.similaritySearch(searchRequest);
+        if (request.getSourceType() != null) {
+            builder.filterExpression("sourceType == '" + request.getSourceType() + "'");
+        }
+
+        List<Document> documents = vectorStore.similaritySearch(builder.build());
 
         List<RetrievalResult> results = new ArrayList<>();
         for (Document document : documents) {

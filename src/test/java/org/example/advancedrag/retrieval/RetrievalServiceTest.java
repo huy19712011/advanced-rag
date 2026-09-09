@@ -1,6 +1,7 @@
 package org.example.advancedrag.retrieval;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.advancedrag.dto.RetrievalRequest;
 import org.example.advancedrag.model.RetrievalResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.document.Document;
@@ -21,7 +22,7 @@ public class RetrievalServiceTest {
 
         String query = "Users not able to connect to VPN";
 
-        List<RetrievalResult> results = retrievalService.retrieve(query);
+        List<RetrievalResult> results = retrievalService.retrieve(new RetrievalRequest(query, null));
 
         log.info("QUERY: {}", query);
         log.info("TOTAL RESULTS: {}", results.size());

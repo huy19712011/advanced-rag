@@ -8,4 +8,5 @@ import lombok.Data;
 public class RetrievalRequest {
 
     private String query;
+    private String sourceType;
 }
