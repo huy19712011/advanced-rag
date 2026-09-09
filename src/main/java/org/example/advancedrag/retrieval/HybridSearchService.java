@@ -15,6 +15,7 @@ public class HybridSearchService {
 
     private final RetrievalService retrievalService;
     private final KeywordSearchService keywordSearchService;
+    private final RerankingService rerankingService;
 
     public List<RetrievalResult> search(RetrievalRequest request) {
 
@@ -44,6 +45,7 @@ public class HybridSearchService {
 
         List<RetrievalResult> results = new ArrayList<>(mergedResults.values());
         results.sort(Comparator.comparing(RetrievalResult::getFinalScore).reversed());
-        return results;
+
+        return rerankingService.rerank(results);
     }
 }
