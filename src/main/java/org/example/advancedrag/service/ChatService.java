@@ -32,6 +32,11 @@ public class ChatService {
                 .call()
                 .content();
 
-        return new ChatResponse(aiResponse);
+        List<String> sources = results.stream()
+                .map(result -> (String) result.getMetadata().get("source"))
+                .distinct()
+                .toList();
+
+        return new ChatResponse(aiResponse, sources);
     }
 }
