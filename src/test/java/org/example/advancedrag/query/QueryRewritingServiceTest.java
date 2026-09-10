@@ -14,8 +14,7 @@ public class QueryRewritingServiceTest {
 
     @Test
     void shouldRewriteQuery() {
-
-        String originalQuery = "vpn issue";
+        String originalQuery = "server down";
 
         String rewrittenQuery =  queryRewritingService.rewrite(originalQuery);
 

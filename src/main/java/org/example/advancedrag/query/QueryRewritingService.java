@@ -17,8 +17,12 @@ public class QueryRewritingService {
                 Rewrite the following enterprise search query to improve retrieval quality
                 for technical support and operational troubleshooting.
                 
-                Keep the rewritten query concise.
-                
+               REQUIREMENTS:
+                - Output must be a concise, natural language phrase.
+                - DO NOT use boolean operators (AND, OR, NOT) or complex search syntax.
+                - DO NOT provide a list of keywords or a boolean expansion.
+                - The result should be a single, professional search phrase.
+
                 Query:
                 %s
                 
@@ -27,4 +31,5 @@ public class QueryRewritingService {
         return chatClient.prompt().user(prompt).call().content();
 
     }
+
 }
