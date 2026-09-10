@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise AI Assistant</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;padding:20px;background:#f5f5f5;}
+.container{background:white;padding:24px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);}
+textarea{width:100%;height:120px;padding:12px;box-sizing:border-box;}
+button{margin-top:12px;padding:10px 20px;cursor:pointer;}
+.response{margin-top:20px;padding:16px;background:#fafafa;border:1px solid #ddd;border-radius:4px;white-space:pre-wrap;min-height:120px;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Enterprise AI Assistant</h1>
+
+<label><strong>Ask a Question</strong></label>
+<textarea id="question">Why are users getting AUTH-403 errors?</textarea>
+
+<br>
+<button onclick="askQuestion()">Ask</button>
+
+<div style="margin-top:20px;">
+<strong>Response</strong>
+<div id="response" class="response">Ask a question to begin.</div>
+</div>
+</div>
+
+<script>
+async function askQuestion() {
+    const question = document.getElementById('question').value;
+    const responseDiv = document.getElementById('response');
+
+    responseDiv.textContent = 'Generating response...';
+
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: question})
+        });
+
+        if (!response.ok) {
+            throw new Error('HTTP ' + response.status);
+        }
+
+        const data = await response.json();
+        responseDiv.textContent = data.response;
+    } catch (e) {
+        responseDiv.textContent = 'Error: ' + e.message;
+    }
+}
+</script>
+</body>
+</html>
