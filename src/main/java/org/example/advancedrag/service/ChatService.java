@@ -1,6 +1,7 @@
 package org.example.advancedrag.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.advancedrag.dto.ChatRequest;
 import org.example.advancedrag.dto.ChatResponse;
 import org.example.advancedrag.dto.RetrievalRequest;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ChatService {
 
     private final ChatClient chatClient;
@@ -26,6 +28,7 @@ public class ChatService {
         List<RetrievalResult> results = hybridSearchService.search(retrievalRequest);
 
         String prompt = promptOrchestrationService.buildPrompt(chatRequest.getMessage(), results);
+        log.info("PROMPT: \n{}", prompt);
 
         String aiResponse = chatClient.prompt()
                 .user(prompt)
