@@ -2,6 +2,7 @@ package org.example.advancedrag.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.advancedrag.model.KnowledgeChunk;
+import org.example.advancedrag.security.PiiDetectionUtil;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class VectorStoreService {
             document.getMetadata().put("documentId", chunk.getDocumentId());
             document.getMetadata().put("source",  chunk.getSource());
             document.getMetadata().put("sourceType", chunk.getSourceType());
+
+            boolean containsPii = PiiDetectionUtil.containsPii(chunk.getContent());
+            document.getMetadata().put("containsPii", containsPii);
 
             documents.add(document);
         }

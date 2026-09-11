@@ -32,7 +32,7 @@ public class GroundednessEvaluationTest {
             ChatRequest request = new ChatRequest();
             request.setMessage(benchmark.getQuery());
 
-            ChatResponse response = chatService.getResponse(request);
+            ChatResponse response = chatService.getResponse(request, "admin");
             String answer = response.getResponse().toLowerCase();
 
             long matchedTerms = benchmark.getExpectedTerms().stream()

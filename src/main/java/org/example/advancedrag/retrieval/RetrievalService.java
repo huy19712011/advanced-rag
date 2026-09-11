@@ -43,6 +43,8 @@ public class RetrievalService {
             filters.add("tenantId == '" + tenantId + "'");
         }
 
+        filters.add("containsPii != true");
+
         if (!filters.isEmpty()) {
             builder.filterExpression(String.join(" && ", filters));
         }

@@ -20,10 +20,10 @@ public class RetrievalServiceTest {
     @Test
     void shouldRetrieveRelevantChunks() {
 
-        String query = "Users not able to connect to VPN";
+        String query = "Priya Raman";
 
         RetrievalRequest request = new RetrievalRequest(query, null);
-        request.setEnvironment("PRODUCTION");
+        //request.setEnvironment("PRODUCTION");
 
         List<RetrievalResult> results = retrievalService.retrieve(request);
 
