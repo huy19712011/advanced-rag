@@ -4,11 +4,13 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.advancedrag.audit.AuditService;
 import org.example.advancedrag.dto.ChatRequest;
 import org.example.advancedrag.dto.ChatResponse;
 import org.example.advancedrag.dto.RetrievalRequest;
 import org.example.advancedrag.model.RetrievalResult;
 import org.example.advancedrag.retrieval.HybridSearchService;
+import org.example.advancedrag.security.TenantContext;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +25,9 @@ public class ChatService {
     private final HybridSearchService hybridSearchService;
     private final PromptOrchestrationService promptOrchestrationService;
     private final MeterRegistry meterRegistry;
+    private final AuditService auditService;
 
-    public ChatResponse getResponse(ChatRequest chatRequest) {
+    public ChatResponse getResponse(ChatRequest chatRequest, String userId) {
 
         //long start = System.currentTimeMillis();
 
@@ -65,6 +68,8 @@ public class ChatService {
         //log.info("RETRIEVAL LATENCY: {} ms", retrievalLatency);
         //log.info("GENERATION LATENCY: {} ms", generationLatency);
         //log.info("TOTAL LATENCY: {} ms",  totalLatency);
+
+        auditService.logQuery(userId, TenantContext.getTenant(), chatRequest.getMessage(), sources, true);
 
         return new ChatResponse(aiResponse, sources);
     }
