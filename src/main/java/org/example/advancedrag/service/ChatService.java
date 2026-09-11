@@ -12,6 +12,7 @@ import org.example.advancedrag.model.RetrievalResult;
 import org.example.advancedrag.retrieval.HybridSearchService;
 import org.example.advancedrag.security.TenantContext;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,13 @@ public class ChatService {
     private final MeterRegistry meterRegistry;
     private final AuditService auditService;
 
+    @Cacheable(
+            value = "chatResponses",
+            key = "T(org.example.advancedrag.security.TenantContext).getTenant() + ':' + #chatRequest.message.trim().toLowerCase()"
+    )
     public ChatResponse getResponse(ChatRequest chatRequest, String userId) {
+
+        log.info("Executing FULL RAG pipeline for query: {}", chatRequest.getMessage());
 
         //long start = System.currentTimeMillis();
 
