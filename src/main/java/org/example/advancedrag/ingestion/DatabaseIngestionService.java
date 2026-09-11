@@ -113,7 +113,8 @@ public class DatabaseIngestionService {
                     "priority", rs.getString("priority"),
                     "category", rs.getString("category"),
                     "tenantId", rs.getString("tenant_id"),
-                    "environment", rs.getString("environment")
+                    "environment", rs.getString("environment"),
+                    "updatedAt", rs.getString("updated_at")
             );
 
             return new KnowledgeDocument(

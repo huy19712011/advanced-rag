@@ -20,9 +20,9 @@ public class RetrievalServiceTest {
     @Test
     void shouldRetrieveRelevantChunks() {
 
-        String query = "Priya Raman";
+        String query = "AUTH-403";
 
-        RetrievalRequest request = new RetrievalRequest(query, null);
+        RetrievalRequest request = new RetrievalRequest(query, "DATABASE");
         //request.setEnvironment("PRODUCTION");
 
         List<RetrievalResult> results = retrievalService.retrieve(request);
