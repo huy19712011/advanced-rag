@@ -39,6 +39,8 @@ dependencies {
     implementation 'net.sourceforge.tess4j:tess4j:5.13.0'
     implementation 'com.vladsch.flexmark:flexmark-all:0.64.8'
     implementation 'org.springframework.ai:spring-ai-starter-vector-store-pgvector'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 dependencyManagement {
