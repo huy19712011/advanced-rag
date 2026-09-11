@@ -3,6 +3,7 @@ package org.example.advancedrag.retrieval;
 import lombok.RequiredArgsConstructor;
 import org.example.advancedrag.dto.RetrievalRequest;
 import org.example.advancedrag.model.RetrievalResult;
+import org.example.advancedrag.security.TenantContext;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -35,6 +36,11 @@ public class RetrievalService {
 
         if (request.getEnvironment() != null) {
             filters.add("environment == '" + request.getEnvironment() + "'");
+        }
+
+        String tenantId = TenantContext.getTenant();
+        if (tenantId != null) {
+            filters.add("tenantId == '" + tenantId + "'");
         }
 
         if (!filters.isEmpty()) {
