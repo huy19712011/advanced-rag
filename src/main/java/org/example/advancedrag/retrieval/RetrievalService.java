@@ -27,6 +27,20 @@ public class RetrievalService {
             builder.filterExpression("sourceType == '" + request.getSourceType() + "'");
         }
 
+        List<String> filters = new ArrayList<>();
+
+        if (request.getSourceType() != null) {
+            filters.add("sourceType == '" + request.getSourceType() + "'");
+        }
+
+        if (request.getEnvironment() != null) {
+            filters.add("environment == '" + request.getEnvironment() + "'");
+        }
+
+        if (!filters.isEmpty()) {
+            builder.filterExpression(String.join(" && ", filters));
+        }
+
         List<Document> documents = vectorStore.similaritySearch(builder.build());
 
         List<RetrievalResult> results = new ArrayList<>();

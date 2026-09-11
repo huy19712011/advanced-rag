@@ -22,7 +22,10 @@ public class RetrievalServiceTest {
 
         String query = "Users not able to connect to VPN";
 
-        List<RetrievalResult> results = retrievalService.retrieve(new RetrievalRequest(query, null));
+        RetrievalRequest request = new RetrievalRequest(query, null);
+        request.setEnvironment("PRODUCTION");
+
+        List<RetrievalResult> results = retrievalService.retrieve(request);
 
         log.info("QUERY: {}", query);
         log.info("TOTAL RESULTS: {}", results.size());
